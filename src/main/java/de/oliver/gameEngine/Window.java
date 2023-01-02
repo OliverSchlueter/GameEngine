@@ -28,7 +28,7 @@ public class Window {
     private Window(){
         this.width = 1080;
         this.height = 720;
-        this.title = "Hello, world!";
+        this.title = "Unity++";
         this.backgroundColor = new Color(1f, 1f, 1f, 1f);
         this.currentScene = new DefaultScene();
         this.fps = 0;
@@ -92,6 +92,8 @@ public class Window {
         float endTime;
         float dt = -1f;
 
+        currentScene.init();
+
         while (!GLFW.glfwWindowShouldClose(glfwWindow)){
             // Poll events
             GLFW.glfwPollEvents();
@@ -130,6 +132,10 @@ public class Window {
 
     public Scene getCurrentScene() {
         return currentScene;
+    }
+
+    public void setCurrentScene(Scene currentScene) {
+        this.currentScene = currentScene;
     }
 
     public void changeScene(Scene newScene){
