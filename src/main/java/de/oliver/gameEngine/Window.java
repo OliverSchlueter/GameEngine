@@ -1,5 +1,8 @@
 package de.oliver.gameEngine;
 
+import de.oliver.gameEngine.scenes.DefaultScene;
+import de.oliver.gameEngine.utils.Color;
+import de.oliver.gameEngine.utils.Time;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
@@ -15,13 +18,20 @@ public class Window {
     private final int width;
     private final int height;
     private final String title;
+    private Color backgroundColor;
+    private Scene currentScene;
+    private float fps;
 
     private long glfwWindow;
 
+
     private Window(){
-        this.width = 1920;
-        this.height = 1080;
+        this.width = 1080;
+        this.height = 720;
         this.title = "Hello, world!";
+        this.backgroundColor = new Color(1f, 1f, 1f, 1f);
+        this.currentScene = new DefaultScene();
+        this.fps = 0;
     }
 
     public void run(){
@@ -78,14 +88,27 @@ public class Window {
     }
 
     private void loop(){
+        float beginTime = Time.getTime();
+        float endTime;
+        float dt = -1f;
+
         while (!GLFW.glfwWindowShouldClose(glfwWindow)){
             // Poll events
             GLFW.glfwPollEvents();
 
-            GL11.glClearColor(1f, 1f, 1f, 0f);
+            GL11.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
+            if(dt >= 0){
+                currentScene.update(dt);
+            }
+
             GLFW.glfwSwapBuffers(glfwWindow);
+
+            endTime = Time.getTime();
+            dt = endTime - beginTime;
+            fps = 1f/dt;
+            beginTime = endTime;
         }
     }
 
@@ -99,6 +122,23 @@ public class Window {
 
     public String getTitle() {
         return title;
+    }
+
+    public Color getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public Scene getCurrentScene() {
+        return currentScene;
+    }
+
+    public void changeScene(Scene newScene){
+        currentScene = newScene;
+        currentScene.init();
+    }
+
+    public float getFps() {
+        return fps;
     }
 
     public static Window get(){
