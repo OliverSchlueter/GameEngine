@@ -1,6 +1,7 @@
 package de.oliver.gameEngine;
 
 import org.lwjgl.Version;
+import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
@@ -9,7 +10,7 @@ import org.lwjgl.system.MemoryUtil;
 
 
 public class Window {
-    private static Window window = null;
+    private static Window instance = null;
 
     private final int width;
     private final int height;
@@ -27,6 +28,14 @@ public class Window {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
         init();
         loop();
+
+        // Free the memory
+        Callbacks.glfwFreeCallbacks(glfwWindow);
+        GLFW.glfwDestroyWindow(glfwWindow);
+
+        // Terminate GLFW and free the error callback
+        GLFW.glfwTerminate();
+        GLFW.glfwSetErrorCallback(null).free();
     }
 
     private void init(){
@@ -50,6 +59,11 @@ public class Window {
         if(glfwWindow == MemoryUtil.NULL){
             throw new IllegalStateException("Failed to create the GLFW window");
         }
+
+        GLFW.glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
+        GLFW.glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
+        GLFW.glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
+        GLFW.glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
 
         // Make the OpenGL context current
         GLFW.glfwMakeContextCurrent(glfwWindow);
@@ -88,11 +102,11 @@ public class Window {
     }
 
     public static Window get(){
-        if(window == null){
-            window = new Window();
+        if(instance == null){
+            instance = new Window();
         }
 
-        return window;
+        return instance;
     }
 
 }
