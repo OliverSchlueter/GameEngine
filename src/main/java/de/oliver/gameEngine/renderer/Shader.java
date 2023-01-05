@@ -1,6 +1,6 @@
 package de.oliver.gameEngine.renderer;
 
-import org.joml.Matrix4f;
+import org.joml.*;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL30;
 
@@ -14,12 +14,14 @@ public class Shader {
 
     private final String filePath;
     private int shaderProgramID;
+    private boolean beingUsed;
 
     private String vertexSource;
     private String fragmentSource;
 
     public Shader(String filePath){
         this.filePath = filePath;
+        beingUsed = false;
 
         try{
             String source = Files.readString(Path.of(filePath));
@@ -112,20 +114,77 @@ public class Shader {
     }
 
     public void use(){
-        // Bind shader program
-        GL30.glUseProgram(shaderProgramID);
+        if(!beingUsed) {
+            // Bind shader program
+            GL30.glUseProgram(shaderProgramID);
+            beingUsed = true;
+        }
     }
 
     public void detach(){
         GL30.glUseProgram(0);
+        beingUsed = false;
     }
 
-    public void uploadMat4f(String varName, Matrix4f mat4){
+    public void uploadMat4f(String varName, Matrix4f mat){
         int varLocation = GL30.glGetUniformLocation(shaderProgramID, varName);
+        use(); // making sure the shader is being used
         FloatBuffer matBuffer = BufferUtils.createFloatBuffer(4*4);
-        mat4.get(matBuffer);
+        mat.get(matBuffer);
 
         GL30.glUniformMatrix4fv(varLocation, false, matBuffer);
+    }
+
+    public void uploadMat3f(String varName, Matrix3f mat){
+        int varLocation = GL30.glGetUniformLocation(shaderProgramID, varName);
+        use();
+        FloatBuffer matBuffer = BufferUtils.createFloatBuffer(3*3);
+        mat.get(matBuffer);
+
+        GL30.glUniformMatrix4fv(varLocation, false, matBuffer);
+    }
+
+    public void uploadMat2f(String varName, Matrix2f mat){
+        int varLocation = GL30.glGetUniformLocation(shaderProgramID, varName);
+        use();
+        FloatBuffer matBuffer = BufferUtils.createFloatBuffer(2*2);
+        mat.get(matBuffer);
+
+        GL30.glUniformMatrix2fv(varLocation, false, matBuffer);
+    }
+
+    public void uploadVec4f(String varName, Vector4f vec){
+        int varLocation = GL30.glGetUniformLocation(shaderProgramID, varName);
+        use();
+        GL30.glUniform4f(varLocation, vec.x, vec.y, vec.z, vec.w);
+    }
+
+    public void uploadVec3f(String varName, Vector3f vec){
+        int varLocation = GL30.glGetUniformLocation(shaderProgramID, varName);
+        use();
+        GL30.glUniform3f(varLocation, vec.x, vec.y, vec.z);
+    }
+
+    public void uploadVec2f(String varName, Vector2f vec){
+        int varLocation = GL30.glGetUniformLocation(shaderProgramID, varName);
+        use();
+        GL30.glUniform2f(varLocation, vec.x, vec.y);
+    }
+
+    public void uploadFloat(String varName, float val){
+        int varLocation = GL30.glGetUniformLocation(shaderProgramID, varName);
+        use();
+        GL30.glUniform1f(varLocation, val);
+    }
+
+    public void uploadInt(String varName, int val){
+        int varLocation = GL30.glGetUniformLocation(shaderProgramID, varName);
+        use();
+        GL30.glUniform1i(varLocation, val);
+    }
+
+    public void uploadTexture(String  varName, int slot){
+        uploadInt(varName, slot);
     }
 
 }

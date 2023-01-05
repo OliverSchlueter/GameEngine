@@ -3,6 +3,8 @@ package de.oliver.gameEngine.scenes;
 import de.oliver.gameEngine.Camera;
 import de.oliver.gameEngine.Scene;
 import de.oliver.gameEngine.renderer.Shader;
+import de.oliver.gameEngine.renderer.Texture;
+import de.oliver.gameEngine.utils.Time;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
@@ -13,11 +15,11 @@ import java.nio.IntBuffer;
 public class LevelEditorScene extends Scene {
 
     private float[] vertexArray = {
-         // position              color
-            50.5f,  -50.5f, 0f,     1f, 0f, 0f, 1f,  // Bottom right  0
-            -50.5f, 50.5f,  0f,     0f, 1f, 0f, 1f,  // Top left      1
-            50.5f,  50.5f,  0f,     0f, 0f, 1f, 1f,  // Top right     2
-            -50.5f, -50.5f, 0f,     1f, 1f, 0f, 1f,  // Bottom left   3
+         // position              color              UV-Coords
+            500f, 20f,  0f,     1f, 0f, 0f, 1f,      1, 1,         // Bottom right  0
+            20f,  500f, 0f,     0f, 1f, 0f, 1f,      0, 0,         // Top left      1
+            500f, 500f, 0f,     0f, 0f, 1f, 1f,      1, 0,         // Top right     2
+            20f,  20f,  0f,     1f, 1f, 0f, 1f,      0, 1,         // Bottom left   3
     };
 
     // Must be in counter-clockwise order
@@ -31,6 +33,8 @@ public class LevelEditorScene extends Scene {
     private int eboID;
     private Shader defaultShader;
 
+    private Texture testTexture;
+
     @Override
     public void init() {
         super.init();
@@ -40,6 +44,8 @@ public class LevelEditorScene extends Scene {
         defaultShader = new Shader("D:\\Workspaces\\Java\\GameEngine\\src\\main\\resources\\shaders\\default.glsl");
 
         defaultShader.compile();
+
+        testTexture = new Texture("D:\\Workspaces\\Java\\GameEngine\\src\\main\\resources\\shaders\\testImage.png");
 
         // Generate VAO, VBO and EBO buffer objects and send to GPU
         vaoID = ARBVertexArrayObject.glGenVertexArrays();
@@ -64,24 +70,33 @@ public class LevelEditorScene extends Scene {
         // Add the vertex attribute pointers
         int positionsSize = 3;
         int colorSize = 4;
-        int floatSizeBytes = 4;
-        int vertexSizeBytes = (positionsSize + colorSize) * floatSizeBytes;
+        int uvSize = 2;
+
+        int vertexSizeBytes = (positionsSize + colorSize + uvSize) * Float.BYTES;
 
         GL30.glVertexAttribPointer(0, positionsSize, GL30.GL_FLOAT, false, vertexSizeBytes, 0);
         GL30.glEnableVertexAttribArray(0);
 
-        GL30.glVertexAttribPointer(1, colorSize, GL30.GL_FLOAT, false, vertexSizeBytes, positionsSize*floatSizeBytes);
+        GL30.glVertexAttribPointer(1, colorSize, GL30.GL_FLOAT, false, vertexSizeBytes, positionsSize * Float.BYTES);
         GL30.glEnableVertexAttribArray(1);
+
+        GL30.glVertexAttribPointer(2, uvSize, GL30.GL_FLOAT, false, vertexSizeBytes,  (positionsSize + colorSize) * Float.BYTES);
+        GL30.glEnableVertexAttribArray(2);
     }
 
     @Override
     public void update(float dt) {
-        camera.getPosition().x -= dt * 50f;
-        camera.getPosition().y -= dt * 50f;
 
         defaultShader.use();
+
+        // Upload texture to shader
+        defaultShader.uploadTexture("TEX_SAMPLER", 0);
+        GL30.glActiveTexture(GL30.GL_TEXTURE0);
+        testTexture.bind();
+
         defaultShader.uploadMat4f("uProjection", camera.getProjectionMatrix());
         defaultShader.uploadMat4f("uView", camera.getViewMatrix());
+        defaultShader.uploadFloat("uTime", Time.getTime());
 
         // Bind the VAO
         GL30.glBindVertexArray(vaoID);
