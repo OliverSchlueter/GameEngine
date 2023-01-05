@@ -85,6 +85,8 @@ public class Window {
         GLFW.glfwShowWindow(glfwWindow);
 
         GL.createCapabilities();
+
+        currentScene.start();
     }
 
     private void loop(){
@@ -103,6 +105,7 @@ public class Window {
 
             if(dt >= 0){
                 currentScene.update(dt);
+                currentScene.updateGameObjects(dt);
             }
 
             GLFW.glfwSwapBuffers(glfwWindow);
@@ -141,6 +144,7 @@ public class Window {
     public void changeScene(Scene newScene){
         currentScene = newScene;
         currentScene.init();
+        currentScene.start();
     }
 
     public float getFps() {

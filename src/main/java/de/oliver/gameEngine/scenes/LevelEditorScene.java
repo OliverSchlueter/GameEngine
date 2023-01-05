@@ -1,7 +1,10 @@
 package de.oliver.gameEngine.scenes;
 
 import de.oliver.gameEngine.Camera;
+import de.oliver.gameEngine.GameObject;
 import de.oliver.gameEngine.Scene;
+import de.oliver.gameEngine.components.FontComponent;
+import de.oliver.gameEngine.components.SpriteComponent;
 import de.oliver.gameEngine.renderer.Shader;
 import de.oliver.gameEngine.renderer.Texture;
 import de.oliver.gameEngine.utils.Time;
@@ -38,6 +41,11 @@ public class LevelEditorScene extends Scene {
     @Override
     public void init() {
         super.init();
+
+        GameObject testObj = new GameObject("test");
+        testObj.addComponent(new FontComponent());
+        testObj.addComponent(new SpriteComponent());
+        addGameObject(testObj);
 
         camera = new Camera(new Vector2f());
 
