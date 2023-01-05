@@ -45,7 +45,7 @@ public class LevelEditorScene extends Scene {
 
         defaultShader.compile();
 
-        testTexture = new Texture("D:\\Workspaces\\Java\\GameEngine\\src\\main\\resources\\shaders\\testImage.png");
+        testTexture = new Texture("D:\\Workspaces\\Java\\GameEngine\\src\\main\\resources\\images\\testImage.png");
 
         // Generate VAO, VBO and EBO buffer objects and send to GPU
         vaoID = ARBVertexArrayObject.glGenVertexArrays();
