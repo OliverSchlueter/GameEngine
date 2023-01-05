@@ -1,7 +1,9 @@
 package de.oliver.gameEngine.scenes;
 
+import de.oliver.gameEngine.Camera;
 import de.oliver.gameEngine.Scene;
 import de.oliver.gameEngine.renderer.Shader;
+import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 
@@ -12,10 +14,10 @@ public class LevelEditorScene extends Scene {
 
     private float[] vertexArray = {
          // position              color
-            0.5f,  -0.5f, 0f,     1f, 0f, 0f, 1f,  // Bottom right  0
-            -0.5f, 0.5f,  0f,     0f, 1f, 0f, 1f,  // Top left      1
-            0.5f,  0.5f,  0f,     0f, 0f, 1f, 1f,  // Top right     2
-            -0.5f, -0.5f, 0f,     1f, 1f, 0f, 1f,  // Bottom left   3
+            50.5f,  -50.5f, 0f,     1f, 0f, 0f, 1f,  // Bottom right  0
+            -50.5f, 50.5f,  0f,     0f, 1f, 0f, 1f,  // Top left      1
+            50.5f,  50.5f,  0f,     0f, 0f, 1f, 1f,  // Top right     2
+            -50.5f, -50.5f, 0f,     1f, 1f, 0f, 1f,  // Bottom left   3
     };
 
     // Must be in counter-clockwise order
@@ -32,6 +34,8 @@ public class LevelEditorScene extends Scene {
     @Override
     public void init() {
         super.init();
+
+        camera = new Camera(new Vector2f());
 
         defaultShader = new Shader("D:\\Workspaces\\Java\\GameEngine\\src\\main\\resources\\shaders\\default.glsl");
 
@@ -72,7 +76,12 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void update(float dt) {
+        camera.getPosition().x -= dt * 50f;
+        camera.getPosition().y -= dt * 50f;
+
         defaultShader.use();
+        defaultShader.uploadMat4f("uProjection", camera.getProjectionMatrix());
+        defaultShader.uploadMat4f("uView", camera.getViewMatrix());
 
         // Bind the VAO
         GL30.glBindVertexArray(vaoID);

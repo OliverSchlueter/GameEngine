@@ -1,9 +1,12 @@
 package de.oliver.gameEngine.renderer;
 
+import org.joml.Matrix4f;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL30;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -115,6 +118,14 @@ public class Shader {
 
     public void detach(){
         GL30.glUseProgram(0);
+    }
+
+    public void uploadMat4f(String varName, Matrix4f mat4){
+        int varLocation = GL30.glGetUniformLocation(shaderProgramID, varName);
+        FloatBuffer matBuffer = BufferUtils.createFloatBuffer(4*4);
+        mat4.get(matBuffer);
+
+        GL30.glUniformMatrix4fv(varLocation, false, matBuffer);
     }
 
 }
