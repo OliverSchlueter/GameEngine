@@ -1,7 +1,6 @@
 package de.oliver.gameEngine.components;
 
 import de.oliver.gameEngine.Component;
-import org.joml.Vector2f;
 import org.joml.Vector4f;
 
 public class SpriteComponent extends Component {

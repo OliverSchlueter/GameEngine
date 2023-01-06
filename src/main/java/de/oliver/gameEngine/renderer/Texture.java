@@ -1,11 +1,9 @@
 package de.oliver.gameEngine.renderer;
 
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.stb.STBImage;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 

@@ -4,11 +4,8 @@ import de.oliver.gameEngine.Window;
 import de.oliver.gameEngine.components.SpriteComponent;
 import de.oliver.gameEngine.utils.Time;
 import org.joml.Vector4f;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.ARBVertexArrayObject;
 import org.lwjgl.opengl.GL30;
-
-import java.nio.FloatBuffer;
 
 public class RenderBatch {
 
