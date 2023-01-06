@@ -2,6 +2,7 @@ package de.oliver.gameEngine.scenes;
 
 import de.oliver.gameEngine.*;
 import de.oliver.gameEngine.components.SpriteComponent;
+import de.oliver.gameEngine.utils.AssetPool;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
@@ -38,12 +39,18 @@ public class LevelEditorScene extends Scene {
 
         gameObject.addComponent(new SpriteComponent(new Vector4f(1, 0, 0, 1)));
         addGameObject(gameObject);
+
+        loadResources();
     }
 
     @Override
     public void update(float dt) {
         System.out.println("FPS: " + Window.get().getFps());
         renderer.render();
+    }
+
+    private void loadResources() {
+        AssetPool.getShader("D:\\Workspaces\\Java\\GameEngine\\src\\main\\resources\\shaders\\default.glsl");
     }
 
 }

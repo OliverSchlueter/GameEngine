@@ -2,6 +2,7 @@ package de.oliver.gameEngine.renderer;
 
 import de.oliver.gameEngine.Window;
 import de.oliver.gameEngine.components.SpriteComponent;
+import de.oliver.gameEngine.utils.AssetPool;
 import de.oliver.gameEngine.utils.Time;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.ARBVertexArrayObject;
@@ -35,8 +36,7 @@ public class RenderBatch {
     public RenderBatch(int maxBatchSize) {
         this.maxBatchSize = maxBatchSize;
         sprites = new SpriteComponent[maxBatchSize];
-        shader = new Shader("D:\\Workspaces\\Java\\GameEngine\\src\\main\\resources\\shaders\\default.glsl");
-        shader.compile();
+        shader = AssetPool.getShader("D:\\Workspaces\\Java\\GameEngine\\src\\main\\resources\\shaders\\default.glsl");
 
         // 4 vertices per quad
         vertices = new float[maxBatchSize * 4 * VERTEX_SIZE];
