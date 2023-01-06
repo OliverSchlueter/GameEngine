@@ -1,16 +1,20 @@
 package de.oliver.gameEngine;
 
 
+import de.oliver.gameEngine.renderer.Renderer;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Scene {
 
+    protected Renderer renderer;
     protected Camera camera;
     protected List<GameObject> gameObjects;
     protected boolean isRunning;
 
     public Scene(){
+        renderer = new Renderer();
         isRunning = false;
         gameObjects = new ArrayList<>();
     }
@@ -30,6 +34,7 @@ public abstract class Scene {
     public void start(){
         for (GameObject gameObject : gameObjects) {
             gameObject.start();
+            renderer.add(gameObject);
         }
 
         isRunning = true;
@@ -39,7 +44,19 @@ public abstract class Scene {
         gameObjects.add(gameObject);
         if (isRunning) {
             gameObject.start();
+            renderer.add(gameObject);
         }
     }
 
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public List<GameObject> getGameObjects() {
+        return gameObjects;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
 }
