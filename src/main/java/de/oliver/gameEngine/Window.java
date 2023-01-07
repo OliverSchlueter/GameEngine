@@ -1,8 +1,9 @@
 package de.oliver.gameEngine;
 
+import de.oliver.gameEngine.listeners.KeyListener;
+import de.oliver.gameEngine.listeners.MouseListener;
 import de.oliver.gameEngine.scenes.DefaultScene;
 import de.oliver.gameEngine.utils.Color;
-import de.oliver.gameEngine.utils.Time;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
@@ -29,7 +30,7 @@ public class Window {
         this.width = 1080;
         this.height = 720;
         this.title = "Unity++";
-        this.backgroundColor = new Color(1f, 1f, 1f, 1f);
+        this.backgroundColor = new Color(0f, 0f, 0f, 1f);
         this.currentScene = new DefaultScene();
         this.fps = 0;
     }
@@ -90,7 +91,7 @@ public class Window {
     }
 
     private void loop(){
-        float beginTime = Time.getTime();
+        float beginTime = (float) GLFW.glfwGetTime();
         float endTime;
         float dt = -1f;
 
@@ -110,7 +111,7 @@ public class Window {
 
             GLFW.glfwSwapBuffers(glfwWindow);
 
-            endTime = Time.getTime();
+            endTime = (float) GLFW.glfwGetTime();
             dt = endTime - beginTime;
             fps = 1f/dt;
             beginTime = endTime;

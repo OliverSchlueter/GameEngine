@@ -6,9 +6,16 @@ import org.joml.Vector4f;
 public class SpriteComponent extends Component {
 
     private Vector4f color;
+    private Sprite sprite;
 
     public SpriteComponent(Vector4f color) {
         this.color = color;
+        sprite = new Sprite(null);
+    }
+
+    public SpriteComponent(Sprite sprite){
+        this.sprite = sprite;
+        color = new Vector4f(1f, 1f, 1f, 1f);
     }
 
     @Override
@@ -23,5 +30,9 @@ public class SpriteComponent extends Component {
 
     public Vector4f getColor() {
         return color;
+    }
+
+    public Sprite getSprite() {
+        return sprite;
     }
 }

@@ -182,6 +182,12 @@ public class Shader {
         GL30.glUniform1i(varLocation, val);
     }
 
+    public void uploadIntArray(String varName, int[] val){
+        int varLocation = GL30.glGetUniformLocation(shaderProgramID, varName);
+        use();
+        GL30.glUniform1iv(varLocation, val);
+    }
+
     public void uploadTexture(String  varName, int slot){
         uploadInt(varName, slot);
     }

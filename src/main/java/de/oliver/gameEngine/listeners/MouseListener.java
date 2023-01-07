@@ -1,4 +1,4 @@
-package de.oliver.gameEngine;
+package de.oliver.gameEngine.listeners;
 
 import org.lwjgl.glfw.GLFW;
 

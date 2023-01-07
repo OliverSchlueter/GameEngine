@@ -31,10 +31,13 @@ public class Renderer {
     private void add(SpriteComponent sprite){
         boolean added = false;
         for (RenderBatch batch : batches) {
-            if(batch.hasRoom()){
-                batch.addSprite(sprite);
-                added = true;
-                break;
+            Texture tex = sprite.getSprite().getTexture();
+            if(tex == null || (batch.hasTexture(tex) || batch.hasTextureRoom())) {
+                if (batch.hasRoom()) {
+                    batch.addSprite(sprite);
+                    added = true;
+                    break;
+                }
             }
         }
 
