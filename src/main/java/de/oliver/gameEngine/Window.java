@@ -30,7 +30,7 @@ public class Window {
         this.width = 1080;
         this.height = 720;
         this.title = "Unity++";
-        this.backgroundColor = new Color(0f, 0f, 0f, 1f);
+        this.backgroundColor = new Color(0.5f, 0f, 0f, 0f);
         this.currentScene = new DefaultScene();
         this.fps = 0;
     }
