@@ -9,9 +9,9 @@ public class LevelScene extends Scene {
     public void init() {
         super.init();
 
-        Window.get().getBackgroundColor().r = 1;
-        Window.get().getBackgroundColor().g = 1;
-        Window.get().getBackgroundColor().b = 1;
+        Window.get().getBackgroundColor().x = 1;
+        Window.get().getBackgroundColor().y = 1;
+        Window.get().getBackgroundColor().z = 1;
 
         System.out.println("In level");
     }

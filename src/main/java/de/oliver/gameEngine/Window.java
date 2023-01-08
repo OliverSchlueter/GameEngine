@@ -3,7 +3,7 @@ package de.oliver.gameEngine;
 import de.oliver.gameEngine.listeners.KeyListener;
 import de.oliver.gameEngine.listeners.MouseListener;
 import de.oliver.gameEngine.scenes.DefaultScene;
-import de.oliver.gameEngine.utils.Color;
+import org.joml.Vector4f;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
@@ -20,18 +20,18 @@ public class Window {
     private final int width;
     private final int height;
     private final String title;
-    private Color backgroundColor;
+    private Vector4f backgroundColor;
     private Scene currentScene;
     private float fps;
 
     private long glfwWindow;
 
 
-    private Window(){
-        this.width = 1080;
-        this.height = 720;
-        this.title = "Unity++";
-        this.backgroundColor = new Color(1f, 1f, 1f, 1f);
+    private Window(int width, int height, String title, Vector4f backgroundColor){
+        this.width = width;
+        this.height = height;
+        this.title = title;
+        this.backgroundColor = backgroundColor;
         this.currentScene = new DefaultScene();
         this.fps = 0;
     }
@@ -105,7 +105,7 @@ public class Window {
             // Poll events
             GLFW.glfwPollEvents();
 
-            GL11.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+            GL11.glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
             if(dt >= 0){
@@ -134,7 +134,7 @@ public class Window {
         return title;
     }
 
-    public Color getBackgroundColor() {
+    public Vector4f getBackgroundColor() {
         return backgroundColor;
     }
 
@@ -156,11 +156,12 @@ public class Window {
         return fps;
     }
 
-    public static Window get(){
-        if(instance == null){
-            instance = new Window();
-        }
+    public static Window create(int width, int height, String title, Vector4f backgroundColor){
+        instance = new Window(width, height, title, backgroundColor);
+        return instance;
+    }
 
+    public static Window get(){
         return instance;
     }
 
