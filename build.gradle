@@ -1,9 +1,10 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 group 'de.oliver'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 repositories {
     mavenCentral()
@@ -33,6 +34,14 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
     implementation "org.joml:joml:${jomlVersion}"
+}
+
+shadowJar{
+    archiveFileName.set("${project.name}-${project.version}.jar")
+
+    manifest {
+        attributes 'Main-Class': 'de.oliver.Main'
+    }
 }
 
 test {
