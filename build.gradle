@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'maven-publish'
 }
 
 group 'de.oliver'
@@ -43,6 +44,22 @@ shadowJar{
         attributes 'Main-Class': 'de.oliver.Main'
     }
 }
+
+
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = this.group
+            artifactId = project.getName()
+            version = this.version
+
+            from components.java
+        }
+    }
+}
+
+
 
 test {
     useJUnitPlatform()

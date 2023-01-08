@@ -17,3 +17,20 @@ I actually made something like this before, so I used the following resources:
 3. to build, run ``gradlew shadowJar``
 4. the jar file will be located in ``build/libs/GameEngine-[version].jar``
 5. have fun with it
+
+
+## Use as dependency in gradle project
+1. run ``gradlew publishToMavenLocal``
+
+2. in your project add the following:
+````gradle
+repositories {
+    mavenLocal()
+    ...
+}
+
+dependencies {
+    implementation 'de.oliver:GameEngine:version'
+    ...
+}
+````
