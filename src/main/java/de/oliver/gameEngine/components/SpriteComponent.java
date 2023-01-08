@@ -16,13 +16,13 @@ public class SpriteComponent extends Component {
     public SpriteComponent(Vector4f color) {
         this.color = color;
         sprite = new Sprite(null);
-        isDirty = false;
+        isDirty = true;
     }
 
     public SpriteComponent(Sprite sprite){
         this.sprite = sprite;
         color = new Vector4f(1f, 1f, 1f, 1f);
-        isDirty = false;
+        isDirty = true;
     }
 
     @Override

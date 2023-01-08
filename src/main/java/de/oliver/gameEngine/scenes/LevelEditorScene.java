@@ -19,31 +19,18 @@ public class LevelEditorScene extends Scene {
 
         spritesheet = AssetPool.getSpriteSheet("D:\\Workspaces\\Java\\GameEngine\\src\\main\\resources\\images\\spritesheet.png");
 
-        obj1 = new GameObject("Object 1", new Transform(new Vector2f(100, 100), new Vector2f(256, 256)));
+        obj1 = new GameObject("Object 1", new Transform(new Vector2f(100, 100), new Vector2f(256, 256)), 1);
         obj1.addComponent(new SpriteComponent(spritesheet.getSprite(0)));
         addGameObject(obj1);
 
-        obj2 = new GameObject("Object 1", new Transform(new Vector2f(400, 100), new Vector2f(256, 256)));
+        obj2 = new GameObject("Object 1", new Transform(new Vector2f(200, 100), new Vector2f(256, 256)), -1);
         obj2.addComponent(new SpriteComponent(spritesheet.getSprite(15)));
         addGameObject(obj2);
 
     }
 
-    private int spriteIndex = 0;
-    private float spriteFlipTime = 0.2f;
-    private float spriteFlipTimeLeft = 0.0f;
     @Override
     public void update(float dt) {
-
-        spriteFlipTimeLeft -= dt;
-        if (spriteFlipTimeLeft <= 0) {
-            spriteFlipTimeLeft = spriteFlipTime;
-            spriteIndex++;
-            if (spriteIndex > 4) {
-                spriteIndex = 0;
-            }
-            obj1.getComponent(SpriteComponent.class).setSprite(spritesheet.getSprite(spriteIndex));
-        }
 
         renderer.render();
     }

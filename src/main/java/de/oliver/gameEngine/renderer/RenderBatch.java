@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL30;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RenderBatch {
+public class RenderBatch implements Comparable<RenderBatch>{
 
     // Vertex
     // ======
@@ -43,9 +43,11 @@ public class RenderBatch {
     private int vboID;
     private int maxBatchSize;
     private Shader shader;
+    private int zIndex;
 
-    public RenderBatch(int maxBatchSize) {
+    public RenderBatch(int maxBatchSize, int zIndex) {
         this.maxBatchSize = maxBatchSize;
+        this.zIndex = zIndex;
         sprites = new SpriteComponent[maxBatchSize];
         shader = AssetPool.getShader("D:\\Workspaces\\Java\\GameEngine\\src\\main\\resources\\shaders\\default.glsl");
 
@@ -241,5 +243,14 @@ public class RenderBatch {
 
     public boolean hasTexture(Texture texture){
         return textures.contains(texture);
+    }
+
+    public int getZIndex() {
+        return zIndex;
+    }
+
+    @Override
+    public int compareTo(RenderBatch o) {
+        return Integer.compare(this.zIndex, o.zIndex);
     }
 }

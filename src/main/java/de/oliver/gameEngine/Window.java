@@ -10,6 +10,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryUtil;
 
 
@@ -30,7 +31,7 @@ public class Window {
         this.width = 1080;
         this.height = 720;
         this.title = "Unity++";
-        this.backgroundColor = new Color(0.5f, 0f, 0f, 0f);
+        this.backgroundColor = new Color(1f, 1f, 1f, 1f);
         this.currentScene = new DefaultScene();
         this.fps = 0;
     }
@@ -86,6 +87,9 @@ public class Window {
         GLFW.glfwShowWindow(glfwWindow);
 
         GL.createCapabilities();
+
+        GL30.glEnable(GL30.GL_BLEND);
+        GL30.glBlendFunc(GL30.GL_ONE, GL30.GL_ONE_MINUS_SRC_ALPHA);
 
         currentScene.start();
     }
