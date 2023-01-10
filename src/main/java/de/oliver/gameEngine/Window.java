@@ -23,6 +23,7 @@ public class Window {
     private Vector4f backgroundColor;
     private Scene currentScene;
     private float fps;
+    private boolean isRunning;
 
     private long glfwWindow;
 
@@ -34,10 +35,12 @@ public class Window {
         this.backgroundColor = backgroundColor;
         this.currentScene = new DefaultScene();
         this.fps = 0;
+        isRunning = false;
     }
 
     public void run(){
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
+        isRunning = true;
         init();
         loop();
 
@@ -120,6 +123,8 @@ public class Window {
             fps = 1f/dt;
             beginTime = endTime;
         }
+
+        isRunning = false;
     }
 
     public int getWidth() {
@@ -156,12 +161,20 @@ public class Window {
         return fps;
     }
 
+    public boolean isRunning() {
+        return isRunning;
+    }
+
     public static Window create(int width, int height, String title, Vector4f backgroundColor){
         instance = new Window(width, height, title, backgroundColor);
         return instance;
     }
 
     public static Window get(){
+        if(instance == null){
+            instance = new Window(500, 500, "hello world", new Vector4f(1, 1, 1, 1));
+        }
+
         return instance;
     }
 
