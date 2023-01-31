@@ -17,15 +17,16 @@ import org.lwjgl.system.MemoryUtil;
 public class Window {
     private static Window instance = null;
 
-    private final int width;
-    private final int height;
-    private final String title;
+    private int width;
+    private int height;
+    private String title;
     private Vector4f backgroundColor;
     private Scene currentScene;
     private float fps;
     private boolean isRunning;
 
     private long glfwWindow;
+    private ImGuiLayer imGuiLayer;
 
 
     private Window(int width, int height, String title, Vector4f backgroundColor){
@@ -79,6 +80,10 @@ public class Window {
         GLFW.glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
         GLFW.glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
         GLFW.glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
+        GLFW.glfwSetWindowSizeCallback(glfwWindow, (w, newWidth, newHeight) -> {
+           width =  newWidth;
+           height = newHeight;
+        });
 
         // Make the OpenGL context current
         GLFW.glfwMakeContextCurrent(glfwWindow);
@@ -93,6 +98,9 @@ public class Window {
 
         GL30.glEnable(GL30.GL_BLEND);
         GL30.glBlendFunc(GL30.GL_ONE, GL30.GL_ONE_MINUS_SRC_ALPHA);
+
+        imGuiLayer = new ImGuiLayer(glfwWindow);
+        imGuiLayer.initImGui();
 
         currentScene.start();
     }
@@ -115,6 +123,8 @@ public class Window {
                 currentScene.update(dt);
                 currentScene.updateGameObjects(dt);
             }
+
+            imGuiLayer.update(dt);
 
             GLFW.glfwSwapBuffers(glfwWindow);
 

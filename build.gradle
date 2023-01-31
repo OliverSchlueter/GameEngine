@@ -5,20 +5,25 @@ plugins {
 }
 
 group 'de.oliver'
-version '1.0'
+version '1.0.0'
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 
 project.ext.lwjglVersion = "3.2.3"
 project.ext.jomlVersion = "1.9.23"
 project.ext.lwjglNatives = "natives-windows"
+project.ext.imguiVersion = '1.76-0.9'
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    // ImGUI
+    implementation "io.imgui.java:binding:$imguiVersion"
+    implementation "io.imgui.java:lwjgl3:$imguiVersion"
+    runtimeOnly "io.imgui.java:natives-windows:$imguiVersion"
 
+    // LWJGL
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
     implementation "org.lwjgl:lwjgl"
     implementation "org.lwjgl:lwjgl-assimp"
