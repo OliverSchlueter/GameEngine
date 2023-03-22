@@ -49,7 +49,7 @@ public class RenderBatch implements Comparable<RenderBatch>{
         this.maxBatchSize = maxBatchSize;
         this.zIndex = zIndex;
         sprites = new SpriteComponent[maxBatchSize];
-        shader = AssetPool.getShader("D:\\Workspaces\\Java\\GameEngine\\src\\main\\resources\\shaders\\default.glsl");
+        shader = AssetPool.getShader("assets/shaders/default.glsl");
 
         // 4 vertices per quad
         vertices = new float[maxBatchSize * 4 * VERTEX_SIZE];

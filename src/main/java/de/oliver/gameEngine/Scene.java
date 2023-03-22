@@ -2,6 +2,7 @@ package de.oliver.gameEngine;
 
 
 import de.oliver.gameEngine.renderer.Renderer;
+import imgui.ImGui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +13,13 @@ public abstract class Scene {
     protected Camera camera;
     protected List<GameObject> gameObjects;
     protected boolean isRunning;
+    protected GameObject activeGameObject;
 
     public Scene(){
         renderer = new Renderer();
         isRunning = false;
         gameObjects = new ArrayList<>();
+        activeGameObject = null;
     }
 
     public abstract void update(float dt);
@@ -46,6 +49,20 @@ public abstract class Scene {
             gameObject.start();
             renderer.add(gameObject);
         }
+    }
+
+    public void sceneImgui(){
+        if(activeGameObject != null){
+            ImGui.begin("Inspector");
+            activeGameObject.imgui();
+            ImGui.end();
+        }
+
+        imgui();
+    }
+
+    public void imgui(){
+
     }
 
     public Camera getCamera() {

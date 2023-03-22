@@ -4,6 +4,7 @@ import de.oliver.gameEngine.*;
 import de.oliver.gameEngine.components.SpriteComponent;
 import de.oliver.gameEngine.components.Spritesheet;
 import de.oliver.gameEngine.utils.AssetPool;
+import imgui.ImGui;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
@@ -18,7 +19,7 @@ public class LevelEditorScene extends Scene {
         loadResources();
         camera = new Camera(new Vector2f());
 
-        spritesheet = AssetPool.getSpriteSheet("D:\\Workspaces\\Java\\GameEngine\\src\\main\\resources\\images\\spritesheet.png");
+        spritesheet = AssetPool.getSpriteSheet("assets/images/spritesheet.png");
 
         obj1 = new GameObject("Object 1", new Transform(new Vector2f(100, 100), new Vector2f(256, 256)), 1);
         obj1.addComponent(new SpriteComponent(spritesheet.getSprite(0)));
@@ -28,9 +29,10 @@ public class LevelEditorScene extends Scene {
         obj2.addComponent(new SpriteComponent(spritesheet.getSprite(15)));
         addGameObject(obj2);
 
-        GameObject obj3 = new GameObject("Object 3", new Transform(new Vector2f(500, 500), new Vector2f(1f, 100)));
+        GameObject obj3 = new GameObject("Object 3", new Transform(new Vector2f(500, 500), new Vector2f(100f, 100)));
         obj3.addComponent(new SpriteComponent(new Vector4f(1, 0, 0, 1)));
         addGameObject(obj3);
+        activeGameObject = obj3;
 
     }
 
@@ -40,13 +42,20 @@ public class LevelEditorScene extends Scene {
         renderer.render();
     }
 
+    @Override
+    public void imgui() {
+        ImGui.begin("Test window");
+        ImGui.text("Random text");
+        ImGui.end();
+    }
+
     private void loadResources() {
-        AssetPool.getShader("D:\\Workspaces\\Java\\GameEngine\\src\\main\\resources\\shaders\\default.glsl");
+        AssetPool.getShader("assets/shaders/default.glsl");
 
         AssetPool.addSpriteSheet(
-                "D:\\Workspaces\\Java\\GameEngine\\src\\main\\resources\\images\\spritesheet.png",
+                "assets/images/spritesheet.png",
                 new Spritesheet(
-                        AssetPool.getTexture("D:\\Workspaces\\Java\\GameEngine\\src\\main\\resources\\images\\spritesheet.png"),
+                        AssetPool.getTexture("assets/images/spritesheet.png"),
                         16,
                         16,
                         26,

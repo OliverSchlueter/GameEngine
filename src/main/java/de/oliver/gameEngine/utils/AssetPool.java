@@ -17,7 +17,7 @@ public class AssetPool {
     public static Shader getShader(String resourceName){
         File file = new File(resourceName);
         if(shaders.containsKey(file.getAbsolutePath())){
-            return shaders.get(resourceName);
+            return shaders.get(file.getAbsolutePath());
         } else {
             Shader shader = new Shader(resourceName);
             shader.compile();
@@ -40,7 +40,7 @@ public class AssetPool {
     public static void addSpriteSheet(String resourceName, Spritesheet spritesheet){
         File file = new File(resourceName);
         if(!spritesheets.containsKey(file.getAbsolutePath())){
-            spritesheets.put(resourceName, spritesheet);
+            spritesheets.put(file.getAbsolutePath(), spritesheet);
         }
     }
 

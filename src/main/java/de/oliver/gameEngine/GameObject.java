@@ -39,6 +39,12 @@ public class GameObject {
             c.start();
         }
     }
+    
+    public void imgui(){
+        for (Component c : components) {
+            c.imgui();
+        }
+    }
 
     public <T extends Component> T getComponent(Class<T> componentClass){
         for (Component c : components) {

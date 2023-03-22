@@ -124,7 +124,7 @@ public class Window {
                 currentScene.updateGameObjects(dt);
             }
 
-            imGuiLayer.update(dt);
+            imGuiLayer.update(dt, currentScene);
 
             GLFW.glfwSwapBuffers(glfwWindow);
 
